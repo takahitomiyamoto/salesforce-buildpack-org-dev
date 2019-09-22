@@ -124,10 +124,10 @@ if [ "$STAGE" == "" ]; then
   auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
   # Create scratch org
-  invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
-  invokeCmd "sfdx force:user:password:generate -u $TARGET_SCRATCH_ORG_ALIAS"
-  password=$(sfdx force:user:display -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.password)
-  debug "password: $password"
+  # invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
+  # invokeCmd "sfdx force:user:password:generate -u $TARGET_SCRATCH_ORG_ALIAS"
+  # password=$(sfdx force:user:display -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.password)
+  # debug "password: $password"
 
   # Store creds for scratch org
   scratchSfdxAuthUrl=$(sfdx force:org:display --verbose -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.sfdxAuthUrl)
