@@ -139,15 +139,17 @@ if [ ! "$STAGE" == "" ]; then
 
   else
 
-    log "Source convert and mdapi deploy"
+    # log "Source convert and mdapi deploy"
+    log "Source deploy"
 
     mdapiDeployScript=bin/mdapi-deploy.sh
     # run mdapi-deploy script
     if [ ! -f "$mdapiDeployScript" ];
     then
 
-      invokeCmd "sfdx force:source:convert -d mdapiout"
-      invokeCmd "sfdx force:mdapi:deploy -d mdapiout --wait 1000 -u $TARGET_SCRATCH_ORG_ALIAS"
+      # invokeCmd "sfdx force:source:convert -d mdapiout"
+      # invokeCmd "sfdx force:mdapi:deploy -d mdapiout --wait 1000 -u $TARGET_SCRATCH_ORG_ALIAS"
+      invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS"
 
     else
 
