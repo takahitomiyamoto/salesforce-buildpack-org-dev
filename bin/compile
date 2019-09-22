@@ -32,7 +32,7 @@ log "Setting up paths ..."
 
 debug "BUILD_DIR: $BUILD_DIR"
 debug "CACHE_DIR: $CACHE_DIR"
-debug "ENV_DIR: $ENV_DIR" 
+debug "ENV_DIR: $ENV_DIR"
 debug "BP_DIR: $BP_DIR"
 
 setup_dirs "$BUILD_DIR"
@@ -60,10 +60,10 @@ debug "SFDX_PACKAGE_NAME: $SFDX_PACKAGE_NAME"
 
 # Set target org alias
 if [ "$CI" == "true" ]; then
-  # CI doesn't include HEROKU_APP_NAME or SOURCE_VERSION (if so, we'd name 
+  # CI doesn't include HEROKU_APP_NAME or SOURCE_VERSION (if so, we'd name
   # similiarly to RA), so set it to a default value
   TARGET_SCRATCH_ORG_ALIAS="ci-$HEROKU_TEST_RUN_COMMIT_VERSION"
-  # REVIEWME: ideally we'd reference run-id (eg #86) instead of 
+  # REVIEWME: ideally we'd reference run-id (eg #86) instead of
   # HEROKU_TEST_RUN_ID which is an internal hash that isn't exposed (AFAICT)
   TARGET_SCRATCH_ORG_NAME="Pipeline CI: $HEROKU_TEST_RUN_BRANCH $HEROKU_TEST_RUN_ID"
 else
@@ -124,17 +124,17 @@ if [ "$STAGE" == "" ]; then
   auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
   # Create scratch org
-  invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
+  # invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
 
   # Store creds for scratch org
   scratchSfdxAuthUrl=$(sfdx force:org:display --verbose -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.sfdxAuthUrl)
   debug "scratchSfdxAuthUrl: $scratchSfdxAuthUrl"
-  
+
   # Store creds in file reflecting the source version (if not running CI)
   scratchOrgAuthFile=$BUILD_DIR/$vendorDir/$TARGET_SCRATCH_ORG_ALIAS
   echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile
   debug "stored in file: $scratchOrgAuthFile"
-  
+
 fi
 
 # Create a package is specied and it's not a review app
@@ -179,7 +179,7 @@ testSetupScript=$BUILD_DIR/bin/test-setup.sh
 testRunScript=$BUILD_DIR/bin/test.sh
 if [ "$run_apex_tests" == "true" ];
 then
-  
+
   if [ ! -f $testSetupScript ]; then
     log "Creating $testSetupScript ..."
      echo "# Log testing org
@@ -231,7 +231,7 @@ sfdx force:auth:sfdxurl:store -f $devHubAuthFile -a huborg -d
 if [ ! -f $scratchOrgAuthFile ];
 then
   mkdir -p $BUILD_DIR/$vendorDir
-  echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile  
+  echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile
 fi
 sfdx force:auth:sfdxurl:store -f $scratchOrgAuthFile -a $TARGET_SCRATCH_ORG_ALIAS
 
