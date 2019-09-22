@@ -27,24 +27,24 @@ log "Setting up paths ..."
 setup_dirs "."
 
 log "Config vars ..."
-debug "SFDX_DEV_HUB_AUTH_URL: $SFDX_DEV_HUB_AUTH_URL"
+# debug "SFDX_DEV_HUB_AUTH_URL: $SFDX_DEV_HUB_AUTH_URL"
 debug "STAGE: $STAGE"
 debug "SFDX_AUTH_URL: $SFDX_AUTH_URL"
-debug "SFDX_BUILDPACK_DEBUG: $SFDX_BUILDPACK_DEBUG"
+# debug "SFDX_BUILDPACK_DEBUG: $SFDX_BUILDPACK_DEBUG"
 debug "CI: $CI"
-debug "HEROKU_TEST_RUN_BRANCH: $HEROKU_TEST_RUN_BRANCH"
-debug "HEROKU_TEST_RUN_COMMIT_VERSION: $HEROKU_TEST_RUN_COMMIT_VERSION"
-debug "HEROKU_TEST_RUN_ID: $HEROKU_TEST_RUN_ID"
-debug "STACK: $STACK"
-debug "SOURCE_VERSION: $SOURCE_VERSION"
+# debug "HEROKU_TEST_RUN_BRANCH: $HEROKU_TEST_RUN_BRANCH"
+# debug "HEROKU_TEST_RUN_COMMIT_VERSION: $HEROKU_TEST_RUN_COMMIT_VERSION"
+# debug "HEROKU_TEST_RUN_ID: $HEROKU_TEST_RUN_ID"
+# debug "STACK: $STACK"
+# debug "SOURCE_VERSION: $SOURCE_VERSION"
 debug "TARGET_SCRATCH_ORG_ALIAS: $TARGET_SCRATCH_ORG_ALIAS"
-debug "SFDX_INSTALL_PACKAGE_VERSION: $SFDX_INSTALL_PACKAGE_VERSION"
-debug "SFDX_CREATE_PACKAGE_VERSION: $SFDX_CREATE_PACKAGE_VERSION"
-debug "SFDX_PACKAGE_NAME: $SFDX_PACKAGE_NAME"
-debug "SFDX_PACKAGE_VERSION_ID: $SFDX_PACKAGE_VERSION_ID"
+# debug "SFDX_INSTALL_PACKAGE_VERSION: $SFDX_INSTALL_PACKAGE_VERSION"
+# debug "SFDX_CREATE_PACKAGE_VERSION: $SFDX_CREATE_PACKAGE_VERSION"
+# debug "SFDX_PACKAGE_NAME: $SFDX_PACKAGE_NAME"
+# debug "SFDX_PACKAGE_VERSION_ID: $SFDX_PACKAGE_VERSION_ID"
 
-whoami=$(whoami)
-debug "WHOAMI: $whoami"
+# whoami=$(whoami)
+# debug "WHOAMI: $whoami"
 
 log "Parse sfdx.yml values ..."
 
@@ -52,15 +52,15 @@ log "Parse sfdx.yml values ..."
 #BUG: not parsing arrays properly
 eval $(parse_yaml sfdx.yml)
 
-debug "scratch-org-def: $scratch_org_def"
-debug "assign-permset: $assign_permset"
-debug "permset-name: $permset_name"
-debug "run-apex-tests: $run_apex_tests"
-debug "delete-test-org: $delete_test_org"
-debug "delete-scratch-org: $delete_scratch_org"
-debug "show_scratch_org_url: $show_scratch_org_url"
-debug "open-path: $open_path"
-debug "data-plans: $data_plans"
+# debug "scratch-org-def: $scratch_org_def"
+# debug "assign-permset: $assign_permset"
+# debug "permset-name: $permset_name"
+# debug "run-apex-tests: $run_apex_tests"
+# debug "delete-test-org: $delete_test_org"
+# debug "delete-scratch-org: $delete_scratch_org"
+# debug "show_scratch_org_url: $show_scratch_org_url"
+# debug "open-path: $open_path"
+# debug "data-plans: $data_plans"
 
 # If review app or CI
 if [ "$STAGE" == "" ]; then
@@ -85,13 +85,13 @@ if [ "$STAGE" == "" ]; then
   invokeCmd "ls"
 
   # Show scratch org URL
-  if [ "$show_scratch_org_url" == "true" ]; then
-    if [ ! "$open_path" == "" ]; then
-      invokeCmd "sfdx force:org:open -r -p $open_path"
-    # else
-    #   invokeCmd "sfdx force:org:open -r"
-    fi
-  fi
+  # if [ "$show_scratch_org_url" == "true" ]; then
+  #   if [ ! "$open_path" == "" ]; then
+  #     invokeCmd "sfdx force:org:open -r -p $open_path"
+  #   else
+  #     invokeCmd "sfdx force:org:open -r"
+  #   fi
+  # fi
 
 fi
 
@@ -102,66 +102,66 @@ if [ ! "$STAGE" == "" ]; then
 
   auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
-  if [ "$SFDX_INSTALL_PACKAGE_VERSION" == "true" ]
-  then
+  # if [ "$SFDX_INSTALL_PACKAGE_VERSION" == "true" ]
+  # then
 
-    # Auth to Dev Hub
-    auth "$vendorDir/sfdxurl" "$SFDX_DEV_HUB_AUTH_URL" d huborg
+  #   # Auth to Dev Hub
+  #   auth "$vendorDir/sfdxurl" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
-    pkgVersionInstallScript=bin/package-install.sh
-    # run package install
-    if [ ! -f "$pkgVersionInstallScript" ];
-    then
+  #   pkgVersionInstallScript=bin/package-install.sh
+  #   # run package install
+  #   if [ ! -f "$pkgVersionInstallScript" ];
+  #   then
 
-      # if target stage is production, release the package version
-      if [ "$STAGE" == "PROD" ]; then
+  #     # if target stage is production, release the package version
+  #     if [ "$STAGE" == "PROD" ]; then
 
-        log "Set package version as released ..."
+  #       log "Set package version as released ..."
 
-        invokeCmd "sfdx force:package:version:promote --package \"$SFDX_PACKAGE_VERSION_ID\" --noprompt"
+  #       invokeCmd "sfdx force:package:version:promote --package \"$SFDX_PACKAGE_VERSION_ID\" --noprompt"
 
-      fi
+  #     fi
 
-      log "Installing package version $SFDX_PACKAGE_NAME ..."
+  #     log "Installing package version $SFDX_PACKAGE_NAME ..."
 
-      invokeCmd "sfdx force:package:install --noprompt --package \"$SFDX_PACKAGE_VERSION_ID\" -u \"$TARGET_SCRATCH_ORG_ALIAS\" --wait 1000 --publishwait 1000"
+  #     invokeCmd "sfdx force:package:install --noprompt --package \"$SFDX_PACKAGE_VERSION_ID\" -u \"$TARGET_SCRATCH_ORG_ALIAS\" --wait 1000 --publishwait 1000"
 
-    else
+  #   else
 
-      # Auth to Dev Hub
-      auth "$vendorDir/sfdxurl" "$SFDX_DEV_HUB_AUTH_URL" d huborg
+  #     # Auth to Dev Hub
+  #     auth "$vendorDir/sfdxurl" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
-      log "Calling $pkgVersionInstallScript"
-      sh "$pkgVersionInstallScript" "$TARGET_SCRATCH_ORG_ALIAS" "$STAGE"
+  #     log "Calling $pkgVersionInstallScript"
+  #     sh "$pkgVersionInstallScript" "$TARGET_SCRATCH_ORG_ALIAS" "$STAGE"
 
-    fi
+  #   fi
 
-    if [ "$SFDX_BUILDPACK_DEBUG" == "true" ] ; then
-      invokeCmd "sfdx force:package:installed:list -u \"$TARGET_SCRATCH_ORG_ALIAS\""
-    fi
+  #   if [ "$SFDX_BUILDPACK_DEBUG" == "true" ] ; then
+  #     invokeCmd "sfdx force:package:installed:list -u \"$TARGET_SCRATCH_ORG_ALIAS\""
+  #   fi
 
-  else
+  # else
 
     # log "Source convert and mdapi deploy"
     log "Source deploy"
 
-    mdapiDeployScript=bin/mdapi-deploy.sh
+    # mdapiDeployScript=bin/mdapi-deploy.sh
     # run mdapi-deploy script
-    if [ ! -f "$mdapiDeployScript" ];
-    then
+    # if [ ! -f "$mdapiDeployScript" ];
+    # then
 
       # invokeCmd "sfdx force:source:convert -d mdapiout"
       # invokeCmd "sfdx force:mdapi:deploy -d mdapiout --wait 1000 -u $TARGET_SCRATCH_ORG_ALIAS"
       invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS"
 
-    else
+    # else
 
-      log "Calling $mdapiDeployScript"
-      sh "$mdapiDeployScript" "$TARGET_SCRATCH_ORG_ALIAS" "$STAGE"
+    #   log "Calling $mdapiDeployScript"
+    #   sh "$mdapiDeployScript" "$TARGET_SCRATCH_ORG_ALIAS" "$STAGE"
 
-    fi
+    # fi
 
-  fi
+  # fi
 
   if [ "$run_apex_tests" == "true" ];
   then
