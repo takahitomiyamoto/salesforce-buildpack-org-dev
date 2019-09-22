@@ -114,11 +114,12 @@ devHubAuthFile=$BUILD_DIR/$vendorDir/sfdxurl
 
 # Review App or CI
 # if [ "$STAGE" == "" ]; then
-if [ "$STAGE" == "CI" ]; then
+# if [ "$STAGE" == "CI" ]; then
 
   log "Running as a REVIEW APP ..."
 
-  if [ ! "$CI" == "" ]; then
+  # if [ ! "$CI" == "" ]; then
+  if [ "$CI" == "true" ]; then
     log "Running via CI ..."
   fi
 
@@ -140,7 +141,7 @@ if [ "$STAGE" == "CI" ]; then
   echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile
   debug "stored in file: $scratchOrgAuthFile"
 
-fi
+# fi
 
 # Create a package is specied and it's not a review app
 # if [ "$SFDX_CREATE_PACKAGE_VERSION" == "true" ] && [ ! "$STAGE" == "" ];

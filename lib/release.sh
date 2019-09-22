@@ -66,7 +66,8 @@ eval $(parse_yaml sfdx.yml)
 # if [ "$STAGE" == "" ]; then
 
   log "Running as a REVIEW APP ..."
-  if [ ! "$CI" == "" ]; then
+  # if [ ! "$CI" == "" ]; then
+  if [ "$CI" == "true" ]; then
     log "Running via CI ..."
   fi
 
