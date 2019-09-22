@@ -63,7 +63,7 @@ eval $(parse_yaml sfdx.yml)
 # debug "data-plans: $data_plans"
 
 # If review app or CI
-if [ "$STAGE" == "" ]; then
+# if [ "$STAGE" == "" ]; then
 
   log "Running as a REVIEW APP ..."
   if [ ! "$CI" == "" ]; then
@@ -77,12 +77,16 @@ if [ "$STAGE" == "" ]; then
   debug "scratchSfdxAuthUrl: $scratchSfdxAuthUrl"
 
   # Auth to scratch org
-  auth "$scratchSfdxAuthUrlFile" "" s "$TARGET_SCRATCH_ORG_ALIAS"
+  # auth "$scratchSfdxAuthUrlFile" "" s "$TARGET_SCRATCH_ORG_ALIAS"
+  auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
+if [ "$STAGE" == "CI" ]; then
+  invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests"
+
+# else
   # Push source
   # invokeCmd "sfdx force:source:push -u $TARGET_SCRATCH_ORG_ALIAS"
-  invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS"
-  invokeCmd "ls"
+  # invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS"
 
   # Show scratch org URL
   # if [ "$show_scratch_org_url" == "true" ]; then
@@ -95,12 +99,15 @@ if [ "$STAGE" == "" ]; then
 
 fi
 
+invokeCmd "ls"
+
 # If Development, Staging, or Prod
-if [ ! "$STAGE" == "" ]; then
+# if [ ! "$STAGE" == "" ]; then
+if [ ! "$STAGE" == "CI" ]; then
 
   log "Detected $STAGE. Kicking off deployment ..."
 
-  auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
+  # auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
   # if [ "$SFDX_INSTALL_PACKAGE_VERSION" == "true" ]
   # then
