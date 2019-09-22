@@ -1,6 +1,6 @@
 # Heroku Buildpack for Salesforce - Org Development
 
-- This do not create any scratch org.
+- creates a scratch org and login password.
 
 ## Acknowledgement
 
