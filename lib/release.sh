@@ -64,6 +64,7 @@ eval $(parse_yaml sfdx.yml)
 
 # If review app or CI
 # if [ "$STAGE" == "" ]; then
+if [ "$STAGE" == "CI" ]; then
 
   log "Running as a REVIEW APP ..."
   if [ ! "$CI" == "" ]; then
@@ -80,8 +81,8 @@ eval $(parse_yaml sfdx.yml)
   # auth "$scratchSfdxAuthUrlFile" "" s "$TARGET_SCRATCH_ORG_ALIAS"
   auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
-if [ "$STAGE" == "CI" ]; then
-  invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests"
+  if [ "$STAGE" == "CI" ]; then
+    invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests"
 
 # else
   # Push source
@@ -95,7 +96,7 @@ if [ "$STAGE" == "CI" ]; then
   #   else
   #     invokeCmd "sfdx force:org:open -r"
   #   fi
-  # fi
+  fi
 
 fi
 

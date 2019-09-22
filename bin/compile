@@ -113,7 +113,8 @@ eval $(parse_yaml sfdx.yml)
 devHubAuthFile=$BUILD_DIR/$vendorDir/sfdxurl
 
 # Review App or CI
-if [ "$STAGE" == "" ]; then
+# if [ "$STAGE" == "" ]; then
+if [ "$STAGE" == "CI" ]; then
 
   log "Running as a REVIEW APP ..."
 
