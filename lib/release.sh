@@ -82,7 +82,8 @@ if [ "$STAGE" == "CI" ]; then
   auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
   if [ "$STAGE" == "CI" ]; then
-    invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests --apiversion $SFDX_API_VERSION --ignorewarnings --wait 1000 --verbose"
+    # invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests --apiversion $SFDX_API_VERSION --ignorewarnings --wait 1000 --verbose"
+    invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests --verbose"
 # else
   # Push source
   # invokeCmd "sfdx force:source:push -u $TARGET_SCRATCH_ORG_ALIAS"
