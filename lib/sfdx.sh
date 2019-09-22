@@ -7,11 +7,12 @@ invokeCmd() {
 
 # <DIR> <SFDX_AUTH_URL> <d|s> <alias>
 auth() {
-  
+
   SFDX_AUTH_URL_FILE="$1"
   if [ ! "$2" == "" ]; then
     echo "$2" > "$SFDX_AUTH_URL_FILE"
   fi
+  echo "SFDX_AUTH_URL_FILE: $SFDX_AUTH_URL_FILE"
   invokeCmd "sfdx force:auth:sfdxurl:store -f $SFDX_AUTH_URL_FILE -$3 -a $4"
 
 }
@@ -29,12 +30,12 @@ tests() {
 createPackage2Version() {
 
   packageName="$1"
-  
+
 }
 
 # <package_name>
 createPackage2Version() {
 
   packageName="$1"
-  
+
 }
