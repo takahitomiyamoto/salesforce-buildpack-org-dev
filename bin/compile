@@ -30,10 +30,10 @@ export_env "$ENV_DIR"
 # Setup local paths
 log "Setting up paths ..."
 
-debug "BUILD_DIR: $BUILD_DIR"
-debug "CACHE_DIR: $CACHE_DIR"
-debug "ENV_DIR: $ENV_DIR"
-debug "BP_DIR: $BP_DIR"
+# debug "BUILD_DIR: $BUILD_DIR"
+# debug "CACHE_DIR: $CACHE_DIR"
+# debug "ENV_DIR: $ENV_DIR"
+# debug "BP_DIR: $BP_DIR"
 
 setup_dirs "$BUILD_DIR"
 
@@ -44,45 +44,45 @@ SFDX_PLUGINS=$(sfdx plugins --core)
 debug "Plugins: $SFDX_PLUGINS"
 
 # Log config
-debug "SFDX_DEV_HUB_AUTH_URL: $SFDX_DEV_HUB_AUTH_URL"
+# debug "SFDX_DEV_HUB_AUTH_URL: $SFDX_DEV_HUB_AUTH_URL"
 debug "STAGE: $STAGE"
 debug "SFDX_AUTH_URL: $SFDX_AUTH_URL"
-debug "SFDX_BUILDPACK_DEBUG: $SFDX_BUILDPACK_DEBUG"
+# debug "SFDX_BUILDPACK_DEBUG: $SFDX_BUILDPACK_DEBUG"
 debug "CI: $CI"
-debug "HEROKU_TEST_RUN_BRANCH: $HEROKU_TEST_RUN_BRANCH"
-debug "HEROKU_TEST_RUN_COMMIT_VERSION: $HEROKU_TEST_RUN_COMMIT_VERSION"
-debug "HEROKU_TEST_RUN_ID: $HEROKU_TEST_RUN_ID"
-debug "STACK: $STACK"
-debug "SOURCE_VERSION: $SOURCE_VERSION"
-debug "SFDX_INSTALL_PACKAGE_VERSION: $SFDX_INSTALL_PACKAGE_VERSION"
-debug "SFDX_CREATE_PACKAGE_VERSION: $SFDX_CREATE_PACKAGE_VERSION"
-debug "SFDX_PACKAGE_NAME: $SFDX_PACKAGE_NAME"
+# debug "HEROKU_TEST_RUN_BRANCH: $HEROKU_TEST_RUN_BRANCH"
+# debug "HEROKU_TEST_RUN_COMMIT_VERSION: $HEROKU_TEST_RUN_COMMIT_VERSION"
+# debug "HEROKU_TEST_RUN_ID: $HEROKU_TEST_RUN_ID"
+# debug "STACK: $STACK"
+# debug "SOURCE_VERSION: $SOURCE_VERSION"
+# debug "SFDX_INSTALL_PACKAGE_VERSION: $SFDX_INSTALL_PACKAGE_VERSION"
+# debug "SFDX_CREATE_PACKAGE_VERSION: $SFDX_CREATE_PACKAGE_VERSION"
+# debug "SFDX_PACKAGE_NAME: $SFDX_PACKAGE_NAME"
 debug "SFDX_ALIAS: $SFDX_ALIAS"
 
 # Set target org alias
-if [ "$CI" == "true" ]; then
+# if [ "$CI" == "true" ]; then
   # CI doesn't include HEROKU_APP_NAME or SOURCE_VERSION (if so, we'd name
   # similiarly to RA), so set it to a default value
-  TARGET_SCRATCH_ORG_ALIAS="ci-$HEROKU_TEST_RUN_COMMIT_VERSION"
+  # TARGET_SCRATCH_ORG_ALIAS="ci-$HEROKU_TEST_RUN_COMMIT_VERSION"
   # REVIEWME: ideally we'd reference run-id (eg #86) instead of
   # HEROKU_TEST_RUN_ID which is an internal hash that isn't exposed (AFAICT)
-  TARGET_SCRATCH_ORG_NAME="Pipeline CI: $HEROKU_TEST_RUN_BRANCH $HEROKU_TEST_RUN_ID"
-else
+  # TARGET_SCRATCH_ORG_NAME="Pipeline CI: $HEROKU_TEST_RUN_BRANCH $HEROKU_TEST_RUN_ID"
+# else
   # HEROKU_APP_NAME available via required=true in app.json
   APP_NAME=${HEROKU_APP_NAME:-$SOURCE_VERSION}
   # TARGET_SCRATCH_ORG_ALIAS="ra-$APP_NAME"
   TARGET_SCRATCH_ORG_ALIAS="$SFDX_ALIAS"
-  TARGET_SCRATCH_ORG_NAME="Pipeline Review App: $APP_NAME"
-fi
+  # TARGET_SCRATCH_ORG_NAME="Pipeline Review App: $APP_NAME"
+# fi
 
 # Ensure w/in 80-chars
-TARGET_SCRATCH_ORG_NAME=$(echo ${TARGET_SCRATCH_ORG_NAME:0:79})
+# TARGET_SCRATCH_ORG_NAME=$(echo ${TARGET_SCRATCH_ORG_NAME:0:79})
 
 debug "TARGET_SCRATCH_ORG_ALIAS: $TARGET_SCRATCH_ORG_ALIAS"
-debug "TARGET_SCRATCH_ORG_NAME: $TARGET_SCRATCH_ORG_NAME"
+# debug "TARGET_SCRATCH_ORG_NAME: $TARGET_SCRATCH_ORG_NAME"
 
-whoami=$(whoami)
-debug "WHOAMI: $whoami"
+# whoami=$(whoami)
+# debug "WHOAMI: $whoami"
 
 # Create a bin and vendor directory
 mkdir -p $BUILD_DIR/bin
@@ -99,15 +99,15 @@ log "Parse sfdx.yml values ..."
 #BUG: not parsing arrays properly
 eval $(parse_yaml sfdx.yml)
 
-debug "scratch-org-def: $scratch_org_def"
-debug "assign-permset: $assign_permset"
-debug "permset-name: $permset_name"
-debug "run-apex-tests: $run_apex_tests"
-debug "delete-test-org: $delete_test_org"
-debug "delete-scratch-org: $delete_scratch_org"
-debug "show-scratch-org-url: $show_scratch_org_url"
-debug "open-path: $open_path"
-debug "data-plans: $data_plans"
+# debug "scratch-org-def: $scratch_org_def"
+# debug "assign-permset: $assign_permset"
+# debug "permset-name: $permset_name"
+# debug "run-apex-tests: $run_apex_tests"
+# debug "delete-test-org: $delete_test_org"
+# debug "delete-scratch-org: $delete_scratch_org"
+# debug "show-scratch-org-url: $show_scratch_org_url"
+# debug "open-path: $open_path"
+# debug "data-plans: $data_plans"
 
 # Set path for Dev Hub auth file
 devHubAuthFile=$BUILD_DIR/$vendorDir/sfdxurl
@@ -123,7 +123,7 @@ if [ "$STAGE" == "" ]; then
 
   # Authenticate to Dev Hub (for scratch org creation)
 
-  auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
+  # auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
   # Create scratch org
   # invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
@@ -142,105 +142,105 @@ if [ "$STAGE" == "" ]; then
 fi
 
 # Create a package is specied and it's not a review app
-if [ "$SFDX_CREATE_PACKAGE_VERSION" == "true" ] && [ ! "$STAGE" == "" ];
-then
+# if [ "$SFDX_CREATE_PACKAGE_VERSION" == "true" ] && [ ! "$STAGE" == "" ];
+# then
 
-  log "Auth to dev hub ..."
+#   log "Auth to dev hub ..."
 
-  # Authenticate to Dev Hub (for package creation)
-  auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
+#   # Authenticate to Dev Hub (for package creation)
+#   auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
-  pkgVersionCreateScript=$BUILD_DIR/bin/package-create.sh
-  # run package version create
-  if [ ! -f "$pkgVersionCreateScript" ];
-  then
+#   pkgVersionCreateScript=$BUILD_DIR/bin/package-create.sh
+#   # run package version create
+#   if [ ! -f "$pkgVersionCreateScript" ];
+#   then
 
-    # get package id
-    CMD="sfdx force:package:list --json | jq '.result[] | select((.Name) == \"$SFDX_PACKAGE_NAME\")' | jq -r .Id"
-    debug "CMD: $CMD"
-    SFDX_PACKAGE_ID=$(eval $CMD)
-    debug "SFDX_PACKAGE_ID: $SFDX_PACKAGE_ID"
+#     # get package id
+#     CMD="sfdx force:package:list --json | jq '.result[] | select((.Name) == \"$SFDX_PACKAGE_NAME\")' | jq -r .Id"
+#     debug "CMD: $CMD"
+#     SFDX_PACKAGE_ID=$(eval $CMD)
+#     debug "SFDX_PACKAGE_ID: $SFDX_PACKAGE_ID"
 
-    log "Creating new package version (this may take awhile) ..."
+#     log "Creating new package version (this may take awhile) ..."
 
-    # create package version
-    CMD="sfdx force:package:version:create --package $SFDX_PACKAGE_ID --wait 100 --installationkeybypass --json | jq -r .result.SubscriberPackageVersionId"
-    SFDX_PACKAGE_VERSION_ID=$(eval $CMD)
-    debug "SFDX_PACKAGE_VERSION_ID: $SFDX_PACKAGE_VERSION_ID"
+#     # create package version
+#     CMD="sfdx force:package:version:create --package $SFDX_PACKAGE_ID --wait 100 --installationkeybypass --json | jq -r .result.SubscriberPackageVersionId"
+#     SFDX_PACKAGE_VERSION_ID=$(eval $CMD)
+#     debug "SFDX_PACKAGE_VERSION_ID: $SFDX_PACKAGE_VERSION_ID"
 
-  else
+#   else
 
-    log "Calling $pkgVersionCreateScript"
-    sh "$pkgVersionCreateScript" huborg "$STAGE"
+#     log "Calling $pkgVersionCreateScript"
+#     sh "$pkgVersionCreateScript" huborg "$STAGE"
 
-  fi
+#   fi
 
-fi
+# fi
 
 # Setup tests for Heroku CI
 
-testSetupScript=$BUILD_DIR/bin/test-setup.sh
-testRunScript=$BUILD_DIR/bin/test.sh
-if [ "$run_apex_tests" == "true" ];
-then
+# testSetupScript=$BUILD_DIR/bin/test-setup.sh
+# testRunScript=$BUILD_DIR/bin/test.sh
+# if [ "$run_apex_tests" == "true" ];
+# then
 
-  if [ ! -f $testSetupScript ]; then
-    log "Creating $testSetupScript ..."
-     echo "# Log testing org
-sfdx force:org:display -u $TARGET_SCRATCH_ORG_ALIAS" > $testSetupScript
-    chmod +x $testSetupScript
-    cat $testSetupScript
-  fi
+#   if [ ! -f $testSetupScript ]; then
+#     log "Creating $testSetupScript ..."
+#      echo "# Log testing org
+# sfdx force:org:display -u $TARGET_SCRATCH_ORG_ALIAS" > $testSetupScript
+#     chmod +x $testSetupScript
+#     cat $testSetupScript
+#   fi
 
-  if [ ! -f $testRunScript ]; then
-    log "Creating $testRunScript ..."
-    cat > $testRunScript << EOF
-sfdx force:apex:test:run -r tap -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error
-exit_status=\$?
-if [ "$delete_test_org" != "false" ]; then
-  # Delete test org; write output in TAP format
-  echo "# \$(sfdx force:org:delete -p -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error)"
-fi
-exit \$exit_status
-EOF
+#   if [ ! -f $testRunScript ]; then
+#     log "Creating $testRunScript ..."
+#     cat > $testRunScript << EOF
+# sfdx force:apex:test:run -r tap -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error
+# exit_status=\$?
+# if [ "$delete_test_org" != "false" ]; then
+#   # Delete test org; write output in TAP format
+#   echo "# \$(sfdx force:org:delete -p -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error)"
+# fi
+# exit \$exit_status
+# EOF
 
-    chmod +x $testRunScript
-    cat $testRunScript
-  fi
+#     chmod +x $testRunScript
+#     cat $testRunScript
+#   fi
 
-fi
+# fi
 
 # TODO: This should only get called when it's a review app (currently it's running for everything)
 # Review app clean-up
 # Set bin/ra-org-delete.sh as 'pr-predestroy' script in app.json
-raOrgDeleteScript=$BUILD_DIR/bin/ra-org-delete.sh
-if [ "$CI" == "" ]; then
-  log "Creating $raOrgDeleteScript (reference as 'pr-predestroy' script in app.json) ..."
+# raOrgDeleteScript=$BUILD_DIR/bin/ra-org-delete.sh
+# if [ "$CI" == "" ]; then
+#   log "Creating $raOrgDeleteScript (reference as 'pr-predestroy' script in app.json) ..."
 
-  # TODO: figure out why we need to re-auth: place auth files elsewhere, eg CACHE_DIR?
-  cat > $raOrgDeleteScript << EOF
-# Delete Review app org
-# Auth to Dev Hub
-if [ ! -f $devHubAuthFile ];
-then
-  mkdir -p $BUILD_DIR/$vendorDir
-  echo "$SFDX_DEV_HUB_AUTH_URL" > $devHubAuthFile
-fi
-sfdx force:auth:sfdxurl:store -f $devHubAuthFile -a huborg -d
-# Auth to scratch org
-if [ ! -f $scratchOrgAuthFile ];
-then
-  mkdir -p $BUILD_DIR/$vendorDir
-  echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile
-fi
-sfdx force:auth:sfdxurl:store -f $scratchOrgAuthFile -a $TARGET_SCRATCH_ORG_ALIAS
-echo "Deleting Review app org $TARGET_SCRATCH_ORG_ALIAS" ...
-sfdx force:org:delete -p -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error
-EOF
+#   # TODO: figure out why we need to re-auth: place auth files elsewhere, eg CACHE_DIR?
+#   cat > $raOrgDeleteScript << EOF
+# # Delete Review app org
+# # Auth to Dev Hub
+# if [ ! -f $devHubAuthFile ];
+# then
+#   mkdir -p $BUILD_DIR/$vendorDir
+#   echo "$SFDX_DEV_HUB_AUTH_URL" > $devHubAuthFile
+# fi
+# sfdx force:auth:sfdxurl:store -f $devHubAuthFile -a huborg -d
+# # Auth to scratch org
+# if [ ! -f $scratchOrgAuthFile ];
+# then
+#   mkdir -p $BUILD_DIR/$vendorDir
+#   echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile
+# fi
+# sfdx force:auth:sfdxurl:store -f $scratchOrgAuthFile -a $TARGET_SCRATCH_ORG_ALIAS
+# echo "Deleting Review app org $TARGET_SCRATCH_ORG_ALIAS" ...
+# sfdx force:org:delete -p -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error
+# EOF
 
-  chmod +x $raOrgDeleteScript
-  cat $raOrgDeleteScript
-fi
+#   chmod +x $raOrgDeleteScript
+#   cat $raOrgDeleteScript
+# fi
 
 ### Procfile & Release Phase
 
