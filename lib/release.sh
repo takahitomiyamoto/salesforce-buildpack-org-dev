@@ -184,7 +184,7 @@ if [ ! "$STAGE" == "CI" ]; then
     # debug "SFDX_TEST_RUN_ID: $SFDX_TEST_RUN_ID"
 
     # invokeCmd "sfdx force:apex:test:report --testrunid $SFDX_TEST_RUN_ID --resultformat human --codecoverage -u $TARGET_SCRATCH_ORG_ALIAS --wait 1000 --verbose"
-    invokeCmd "sfdx force:apex:test:run --resultformat human --codecoverage -u $TARGET_SCRATCH_ORG_ALIAS --wait 1000 --verbose"
+    invokeCmd "sfdx force:apex:test:run -l RunAllTestsInOrg --resultformat human --codecoverage -u $TARGET_SCRATCH_ORG_ALIAS --wait 1000 --verbose"
 
   fi
 
