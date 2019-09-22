@@ -125,10 +125,11 @@ if [ "$STAGE" == "" ]; then
 
   # Create scratch org
   # invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
-  invokeCmd "sfdx force:auth:jwt:grant --setalias $TARGET_SCRATCH_ORG_ALIAS --clientid $SFDX_CONSUMER_KEY --jwtkeyfile $SFDX_JWT_KEY_FILE --username $SFDX_USERNAME --instanceurl $SFDX_INSTANCE_URL --setdefaultusername"
+  # invokeCmd "sfdx force:auth:jwt:grant --setalias $TARGET_SCRATCH_ORG_ALIAS --clientid $SFDX_CONSUMER_KEY --jwtkeyfile $SFDX_JWT_KEY_FILE --username $SFDX_USERNAME --instanceurl $SFDX_INSTANCE_URL --setdefaultusername"
 
   # Store creds for scratch org
-  scratchSfdxAuthUrl=$(sfdx force:org:display --verbose -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.sfdxAuthUrl)
+  # scratchSfdxAuthUrl=$(sfdx force:org:display --verbose -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.sfdxAuthUrl)
+  scratchSfdxAuthUrl=$SFDX_AUTH_URL
   debug "scratchSfdxAuthUrl: $scratchSfdxAuthUrl"
 
   # Store creds in file reflecting the source version (if not running CI)
