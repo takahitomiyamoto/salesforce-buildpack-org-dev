@@ -81,7 +81,7 @@ if [ "$STAGE" == "CI" ]; then
   # auth "$scratchSfdxAuthUrlFile" "" s "$TARGET_SCRATCH_ORG_ALIAS"
   auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
-  if [ "$STAGE" == "CI" ]; then
+  # if [ "$STAGE" == "CI" ]; then
     # invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests --apiversion $SFDX_API_VERSION --ignorewarnings --wait 1000 --verbose"
     invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests --verbose"
 # else
@@ -96,11 +96,11 @@ if [ "$STAGE" == "CI" ]; then
   #   else
   #     invokeCmd "sfdx force:org:open -r"
   #   fi
-  fi
+  # fi
 
 fi
 
-invokeCmd "ls"
+# invokeCmd "ls"
 
 # If Development, Staging, or Prod
 # if [ ! "$STAGE" == "" ]; then
@@ -108,7 +108,7 @@ if [ ! "$STAGE" == "CI" ]; then
 
   log "Detected $STAGE. Kicking off deployment ..."
 
-  # auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
+  auth "$vendorDir/sfdxurl" "$SFDX_AUTH_URL" s "$TARGET_SCRATCH_ORG_ALIAS"
 
   # if [ "$SFDX_INSTALL_PACKAGE_VERSION" == "true" ]
   # then
