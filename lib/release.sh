@@ -9,6 +9,7 @@ unset GIT_DIR       # Avoid GIT_DIR leak from previous build steps
 
 TARGET_SCRATCH_ORG_ALIAS=${1:-}
 SFDX_PACKAGE_VERSION_ID=${2:-}
+STAGE=${3:-}
 
 vendorDir="vendor/sfdx"
 
@@ -81,13 +82,14 @@ if [ "$STAGE" == "" ]; then
   # Push source
   # invokeCmd "sfdx force:source:push -u $TARGET_SCRATCH_ORG_ALIAS"
   invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS"
+  invokeCmd "ls"
 
   # Show scratch org URL
   if [ "$show_scratch_org_url" == "true" ]; then
     if [ ! "$open_path" == "" ]; then
       invokeCmd "sfdx force:org:open -r -p $open_path"
-    else
-      invokeCmd "sfdx force:org:open -r"
+    # else
+    #   invokeCmd "sfdx force:org:open -r"
     fi
   fi
 
