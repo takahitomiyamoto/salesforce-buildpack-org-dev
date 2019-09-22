@@ -79,7 +79,8 @@ if [ "$STAGE" == "" ]; then
   auth "$scratchSfdxAuthUrlFile" "" s "$TARGET_SCRATCH_ORG_ALIAS"
 
   # Push source
-  invokeCmd "sfdx force:source:push -u $TARGET_SCRATCH_ORG_ALIAS"
+  # invokeCmd "sfdx force:source:push -u $TARGET_SCRATCH_ORG_ALIAS"
+  invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS"
 
   # Show scratch org URL
   if [ "$show_scratch_org_url" == "true" ]; then
