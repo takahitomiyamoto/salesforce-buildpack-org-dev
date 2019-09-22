@@ -8,8 +8,7 @@ set -o pipefail     # don't ignore exit codes when piping output
 unset GIT_DIR       # Avoid GIT_DIR leak from previous build steps
 
 TARGET_SCRATCH_ORG_ALIAS=${1:-}
-SFDX_PACKAGE_VERSION_ID=${2:-}
-STAGE=${3:-}
+# SFDX_PACKAGE_VERSION_ID=${2:-}
 
 vendorDir="vendor/sfdx"
 
