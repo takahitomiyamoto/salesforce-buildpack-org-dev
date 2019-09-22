@@ -4,4 +4,4 @@
 
 ## Acknowledgement
 
-This is forked from [official buildpack](https://github.com/heroku/salesforce-cli-buildpack).
+This is forked from [official buildpack](https://github.com/heroku/salesforce-buildpack).

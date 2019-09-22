@@ -9,32 +9,43 @@ set -o nounset    # fail on unset variables
 #################################################################
 
 ### Declare values
+YOUR_APP_NAME="taka-demo-swtt2019"
+YOUR_GITHUB_REPO="takahitomiyamoto/demo"
+YOUR_PACKAGE_NAME="VSCodePlayground"
+DEV_HUB_USERNAME="DevHub"
+DEV_USERNAME="VSCodePlayground"
+STAGING_USERNAME="VSCodePlayground"
+PROD_USERNAME="VSCodePlayground"
 
 # Name of your team (optional)
 HEROKU_TEAM_NAME=""
 
 # Descriptive name for the Heroku app (e.g. gifter)
-HEROKU_APP_NAME="YOUR_APP_NAME"
+# HEROKU_APP_NAME="YOUR_APP_NAME"
+HEROKU_APP_NAME="$YOUR_APP_NAME"
 
 # Name of the Heroku apps you'll use
 HEROKU_DEV_APP_NAME="$HEROKU_APP_NAME-dev"
 HEROKU_STAGING_APP_NAME="$HEROKU_APP_NAME-staging"
-HEROKU_PROD_APP_NAME="$HEROKU_APP_NAME-prod"
+HEROKU_PROD_APP_NAME="$HEROKU_APP_NAME"
 
 # Pipeline
-HEROKU_PIPELINE_NAME="$HEROKU_APP_NAME-pipeline"
+# HEROKU_PIPELINE_NAME="$HEROKU_APP_NAME-pipeline"
+HEROKU_PIPELINE_NAME="$HEROKU_APP_NAME"
 
 # Usernames or aliases of the orgs you're using
-DEV_HUB_USERNAME="HubOrg"
-DEV_USERNAME="DevOrg"
-STAGING_USERNAME="TestOrg"
-PROD_USERNAME="ProdOrg"
+DEV_HUB_USERNAME="$DEV_HUB_USERNAME"
+DEV_USERNAME="$DEV_USERNAME"
+STAGING_USERNAME="$STAGING_USERNAME"
+PROD_USERNAME="$PROD_USERNAME"
 
 # Repository with your code (e.g. wadewegner/GIFter)
-GITHUB_REPO="YOUR_GITHUB_REPO"
+# GITHUB_REPO="YOUR_GITHUB_REPO"
+GITHUB_REPO="$YOUR_GITHUB_REPO"
 
 # Your package name (e.g. GIFter)
-PACKAGE_NAME="YOUR_PACKAGE_NAME"
+# PACKAGE_NAME="YOUR_PACKAGE_NAME"
+PACKAGE_NAME="$YOUR_PACKAGE_NAME"
 
 ### Setup script
 
@@ -71,10 +82,13 @@ heroku config:set STAGE=PROD -a $HEROKU_PROD_APP_NAME
 # heroku config:set SFDX_INSTALL_PACKAGE_VERSION=true -a $HEROKU_DEV_APP_NAME
 # heroku config:set SFDX_INSTALL_PACKAGE_VERSION=true -a $HEROKU_STAGING_APP_NAME
 # heroku config:set SFDX_INSTALL_PACKAGE_VERSION=true -a $HEROKU_PROD_APP_NAME
-heroku config:set SFDX_INSTALL_PACKAGE_VERSION=false
+heroku config:set SFDX_INSTALL_PACKAGE_VERSION=false -a $HEROKU_DEV_APP_NAME
+heroku config:set SFDX_INSTALL_PACKAGE_VERSION=false -a $HEROKU_STAGING_APP_NAME
+heroku config:set SFDX_INSTALL_PACKAGE_VERSION=false -a $HEROKU_PROD_APP_NAME
 
 # Set whether to create package version
-heroku config:set SFDX_CREATE_PACKAGE_VERSION=true -a $HEROKU_DEV_APP_NAME
+# heroku config:set SFDX_CREATE_PACKAGE_VERSION=true -a $HEROKU_DEV_APP_NAME
+heroku config:set SFDX_CREATE_PACKAGE_VERSION=false -a $HEROKU_DEV_APP_NAME
 heroku config:set SFDX_CREATE_PACKAGE_VERSION=false -a $HEROKU_STAGING_APP_NAME
 heroku config:set SFDX_CREATE_PACKAGE_VERSION=false -a $HEROKU_PROD_APP_NAME
 
@@ -105,13 +119,19 @@ prodSfdxAuthUrl=$(sfdx force:org:display --verbose -u $PROD_USERNAME --json | jq
 heroku config:set SFDX_AUTH_URL=$prodSfdxAuthUrl -a $HEROKU_PROD_APP_NAME
 
 # Add buildpacks to apps (to use latest remove version info)
-heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack#v3 -a $HEROKU_DEV_APP_NAME
-heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack#v3 -a $HEROKU_STAGING_APP_NAME
-heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack#v3 -a $HEROKU_PROD_APP_NAME
+# heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack#v3 -a $HEROKU_DEV_APP_NAME
+# heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack#v3 -a $HEROKU_STAGING_APP_NAME
+# heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack#v3 -a $HEROKU_PROD_APP_NAME
+heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack -a $HEROKU_DEV_APP_NAME
+heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack -a $HEROKU_STAGING_APP_NAME
+heroku buildpacks:add -i 1 https://github.com/heroku/salesforce-cli-buildpack -a $HEROKU_PROD_APP_NAME
 
-heroku buildpacks:add -i 2 https://github.com/heroku/salesforce-buildpack#v3 -a $HEROKU_DEV_APP_NAME
-heroku buildpacks:add -i 2 https://github.com/heroku/salesforce-buildpack#v3 -a $HEROKU_STAGING_APP_NAME
-heroku buildpacks:add -i 2 https://github.com/heroku/salesforce-buildpack#v3 -a $HEROKU_PROD_APP_NAME
+# heroku buildpacks:add -i 2 https://github.com/heroku/salesforce-buildpack#v3 -a $HEROKU_DEV_APP_NAME
+# heroku buildpacks:add -i 2 https://github.com/heroku/salesforce-buildpack#v3 -a $HEROKU_STAGING_APP_NAME
+# heroku buildpacks:add -i 2 https://github.com/heroku/salesforce-buildpack#v3 -a $HEROKU_PROD_APP_NAME
+heroku buildpacks:add -i 2 https://github.com/takahitomiyamoto/salesforce-buildpack-org-dev -a $HEROKU_DEV_APP_NAME
+heroku buildpacks:add -i 2 https://github.com/takahitomiyamoto/salesforce-buildpack-org-dev -a $HEROKU_STAGING_APP_NAME
+heroku buildpacks:add -i 2 https://github.com/takahitomiyamoto/salesforce-buildpack-org-dev -a $HEROKU_PROD_APP_NAME
 
 # Create Pipeline
 heroku pipelines:create $HEROKU_PIPELINE_NAME -a $HEROKU_DEV_APP_NAME -s development $HEROKU_TEAM_FLAG

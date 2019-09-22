@@ -124,10 +124,7 @@ if [ "$STAGE" == "" ]; then
   auth "$devHubAuthFile" "$SFDX_DEV_HUB_AUTH_URL" d huborg
 
   # Create scratch org
-  # invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
-  # invokeCmd "sfdx force:user:password:generate -u $TARGET_SCRATCH_ORG_ALIAS"
-  # password=$(sfdx force:user:display -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.password)
-  # debug "password: $password"
+  invokeCmd "sfdx force:org:create -s -f \"$scratch_org_def\" -a $TARGET_SCRATCH_ORG_ALIAS orgName=\"$TARGET_SCRATCH_ORG_NAME\""
 
   # Store creds for scratch org
   scratchSfdxAuthUrl=$(sfdx force:org:display --verbose -u $TARGET_SCRATCH_ORG_ALIAS --json | jq -r .result.sfdxAuthUrl)
@@ -196,12 +193,10 @@ sfdx force:org:display -u $TARGET_SCRATCH_ORG_ALIAS" > $testSetupScript
     cat > $testRunScript << EOF
 sfdx force:apex:test:run -r tap -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error
 exit_status=\$?
-
 if [ "$delete_test_org" != "false" ]; then
   # Delete test org; write output in TAP format
   echo "# \$(sfdx force:org:delete -p -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error)"
 fi
-
 exit \$exit_status
 EOF
 
@@ -221,7 +216,6 @@ if [ "$CI" == "" ]; then
   # TODO: figure out why we need to re-auth: place auth files elsewhere, eg CACHE_DIR?
   cat > $raOrgDeleteScript << EOF
 # Delete Review app org
-
 # Auth to Dev Hub
 if [ ! -f $devHubAuthFile ];
 then
@@ -229,7 +223,6 @@ then
   echo "$SFDX_DEV_HUB_AUTH_URL" > $devHubAuthFile
 fi
 sfdx force:auth:sfdxurl:store -f $devHubAuthFile -a huborg -d
-
 # Auth to scratch org
 if [ ! -f $scratchOrgAuthFile ];
 then
@@ -237,7 +230,6 @@ then
   echo "$scratchSfdxAuthUrl" > $scratchOrgAuthFile
 fi
 sfdx force:auth:sfdxurl:store -f $scratchOrgAuthFile -a $TARGET_SCRATCH_ORG_ALIAS
-
 echo "Deleting Review app org $TARGET_SCRATCH_ORG_ALIAS" ...
 sfdx force:org:delete -p -u $TARGET_SCRATCH_ORG_ALIAS --loglevel=error
 EOF
