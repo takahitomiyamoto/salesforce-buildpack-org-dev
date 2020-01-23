@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
+echo "---------- detect ----------"
+
 echo "salesforce-buildpack"
 exit 0

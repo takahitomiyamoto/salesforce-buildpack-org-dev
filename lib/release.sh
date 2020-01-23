@@ -2,6 +2,8 @@
 
 START_TIME=$SECONDS
 
+log "---------- release.sh ----------"
+
 # set -x
 set -o errexit      # always exit on error
 set -o pipefail     # don't ignore exit codes when piping output
