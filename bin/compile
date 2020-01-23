@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
-log "---------- compile ----------"
+debug "---------- compile ----------"
 
 START_TIME=$SECONDS
 

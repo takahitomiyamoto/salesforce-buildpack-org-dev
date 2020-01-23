@@ -2,7 +2,7 @@
 
 START_TIME=$SECONDS
 
-log "---------- release.sh ----------"
+debug "---------- release.sh ----------"
 
 # set -x
 set -o errexit      # always exit on error
