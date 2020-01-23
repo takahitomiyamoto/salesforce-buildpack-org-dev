@@ -85,7 +85,7 @@ eval $(parse_yaml sfdx.yml)
 if [ "$STAGE" == "CI" ]; then
   # if [ "$STAGE" == "CI" ]; then
     # invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests --apiversion $SFDX_API_VERSION --ignorewarnings --wait 1000 --verbose"
-    invokeCmd "sfdx force:source:deploy -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests"
+    invokeCmd "sfdx force:source:deploy --checkonly --verbose -p force-app -u $TARGET_SCRATCH_ORG_ALIAS -c -l RunLocalTests"
 # else
   # Push source
   # invokeCmd "sfdx force:source:push -u $TARGET_SCRATCH_ORG_ALIAS"
